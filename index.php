@@ -22,6 +22,8 @@
                 'strength' => $player->getStrength(),
                 'mana' => $player->getMana()
             ]);
+        } else {
+            $errors = $dirtyPlayer->getErrors();
         }
     }
 
@@ -56,7 +58,21 @@
     
     <h1 class="my-12 text-center text-xl font-semibold">POO RPG</h1>
 
-    <form action="" method="post" class="border p-4 rounded-xl">
+    <?php if (!empty($errors)) { ?>
+        <div class="bg-red-200 rounded-lg border border-red-700 p-4 text-red-600 font-semibold">
+            <?php foreach ($errors as $error) { ?>
+                <p>* <?= $error ?></p>
+            <?php } ?>
+        </div>
+    <?php } ?>
+
+    <?php if ($success) { ?>
+        <div class="bg-emerald-200 rounded-lg border border-emerald-700 p-4 text-emerald-600 font-semibold">
+            <p>Votre personnage a été initialisé !</p>
+        </div>
+    <?php } ?>
+
+    <form action="" method="post" class="border p-4 rounded-xl mb-6">
         <input name="name" type="text" placeholder="Votre nom..." class="border w-full text-lg pl-4 rounded mb-2">
 
         <div class="mb-4">

@@ -1,0 +1,15 @@
+#logo:hover {
+    animation: logoHover 1s ease-out;
+}
+
+@keyframes logoHover {
+    0% {
+        transform: rotateZ(0deg);
+    }
+    50% {
+        transform: rotateZ(320deg);
+    }
+    100% {
+        transform: rotateZ(360deg);
+    }
+}

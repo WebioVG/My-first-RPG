@@ -2,6 +2,7 @@
 
 class Character
 {
+    // Properties
     private $name;
     private $class;
     private $tribe;
@@ -9,6 +10,7 @@ class Character
     private $strength;
     private $mana;
 
+    // Constructor
     public function __construct($name, $class, $tribe)
     {
         $this->name = $name;
@@ -34,6 +36,17 @@ class Character
     }
 
     // Getters
+    public function getAllProperties()
+    {
+        return [
+            'name' => $this->name,
+            'class' => $this->class,
+            'tribe' => $this->tribe,
+            'health' => $this->health,
+            'strength' => $this->strength,
+            'mana' => $this->mana
+        ];
+    }
     public function getName()
     {
         return $this->name;
@@ -98,5 +111,22 @@ class Character
     }
 
     // Functions
+    public function save()
+    {
+        insert('INSERT INTO player (name, class, tribe, health, strength, mana) VALUES (:name, :class, :tribe, :health, :strength, :mana);', [
+            'name' => $this->name,
+            'class' => $this->class,
+            'tribe' => $this->tribe,
+            'health' => $this->health,
+            'strength' => $this->strength,
+            'mana' => $this->mana
+        ]);
 
+        return $this;
+    }
+
+    public static function all()
+    {
+        return selectAll('SELECT * FROM player');
+    }
 }

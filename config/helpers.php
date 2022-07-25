@@ -63,3 +63,15 @@ function selectOne($sql, $bindings = []) {
 
     return $query->fetch();
 }
+
+/**
+ * Permet de faire un select all en SQL (fetchAll).
+ */
+function selectAll($sql, $bindings = []) {
+    global $db;
+
+    $query = $db->prepare($sql);
+    $query->execute($bindings);
+
+    return $query->fetchAll();
+}

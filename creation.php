@@ -159,7 +159,7 @@
                 <ul class="my-2">
                     <li class="pl-4">Ta santé : <?= $player->getHealth() ?></li>
                     <li class="pl-4">Ta force : <?= $player->getStrength() ?></li>
-                    <li class="pl-4">Ton mana : <?= $player->getMana() ?></li>
+                    <li class="pl-4">Ta puissance : <?= $player->getPower() ?></li>
                 </ul>
                 <a href="#" class="text-blue-500 duration-300 rounded inline-block hover:border hover:px-4">Je veux un autre personnage.</a>
             </section>

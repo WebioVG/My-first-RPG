@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="partials/header.css">
 
-<header class="w-[100vw] h-[12vh] bg-rose-700 py-4 px-8 flex justify-between items-center fixed left-0 top-0">
+<header class="w-[100vw] h-[12vh] bg-rose-700 py-4 px-8 flex justify-between items-center fixed left-0 top-0 z-10">
     <a href="index.php">
         <svg id="logo" class="w-[70px] h-[70px] object-cover fill-emerald-800 rotate-[-5deg]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
             <!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->

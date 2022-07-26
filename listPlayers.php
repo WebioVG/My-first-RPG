@@ -48,6 +48,8 @@
                                 break;
                         } ?>
 
+                        <hr class="my-3">
+
                         <p class="mb-1"><span class="text-lg font-semibold inline-block w-[30%]">Classe : </span><span class="italic"><?= $player['class'] ?></span></p>
                         <p class="mb-1"><span class="text-lg font-semibold inline-block w-[30%]">Tribu : </span><span class="italic"><?= $player['tribe'] ?></span></p>
                         <p class="mb-1"><span class="text-lg font-semibold inline-block w-[30%]">Vie : </span><span class="italic"><?= $player['health'] ?></span></p>

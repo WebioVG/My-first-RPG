@@ -1,3 +1,11 @@
+<?php
+
+    require 'config/helpers.php';
+    require 'classes/Character.php';
+    $players = Character::all();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

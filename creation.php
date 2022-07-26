@@ -16,6 +16,7 @@
     $name = $isNameRandom ? generateRandomName() : post('name');
     $class = post('class');
     $tribe = post('tribe');
+    $errors = [];
     $characters = Character::all();
 
     ///////////////
@@ -59,6 +60,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="js/creation.js"></script>
 
     <title>RPG - Creation</title>
 </head>
@@ -79,7 +81,7 @@
         <?php } ?>
     
         <?php if ($player !== null) { ?>
-            <div class="bg-emerald-200 rounded-lg border border-emerald-700 p-4 text-emerald-600 font-semibold">
+            <div id="displaySuccessMessage" class="bg-emerald-200 rounded-lg border border-emerald-700 p-4 text-emerald-600 font-semibold">
                 <p>Votre personnage a été initialisé !</p>
             </div>
         <?php } ?>

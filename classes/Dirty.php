@@ -35,7 +35,20 @@ class Dirty
     public function createNewCharacter()
     {
         if (empty($this->errors)) {
-            return new Character($this->name, $this->class, $this->tribe);
+            switch ($this->class) {
+                case 'warrior':
+                        return new Warrior($this->name, $this->tribe);
+                        
+                    break;
+                    case 'mage':
+                        return new Mage($this->name, $this->tribe);
+                        
+                        break;
+                    case 'hunter':
+                        return new Hunter($this->name, $this->tribe);
+        
+                        break;
+                }
         } else {
             return null;
         }

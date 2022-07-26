@@ -12,5 +12,5 @@ try {
     ]);
 } catch (Exception $exception) {
     echo '<h1>'.$exception->getMessage().'</h1>';
-    die; // On arrête le code PHP
+    die;
 }

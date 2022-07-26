@@ -1,5 +1,9 @@
 <?php
 
+require 'Warrior.php';
+require 'Mage.php';
+require 'Hunter.php';
+
 class Character
 {
     // Properties
@@ -16,23 +20,6 @@ class Character
         $this->name = $name;
         $this->class = $class;
         $this->tribe = $tribe;
-        switch ($class) {
-            case 'warrior':
-                $this->strength = 30;
-                $this->mana = 10;
-
-                break;
-            case 'mage':
-                $this->strength = 10;
-                $this->mana = 30;
-
-                break;
-            case 'hunter':
-                $this->strength = 20;
-                $this->mana = 20;
-
-                break;
-        }
     }
 
     // Getters

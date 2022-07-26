@@ -6,6 +6,7 @@
     
     require 'classes/Dirty.php';
     require 'config/helpers.php';
+    require 'classes/DB.php';
 
     ///////////////
     // VARIABLES //
@@ -24,12 +25,12 @@
     ///////////////
 
     function generateRandomName() {
-        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
+        $letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $lettersLength = strlen($letters);
         $randomName = '';
 
         for ($i = 0; $i < 10; $i++) {
-            $randomName .= $characters[rand(0, $charactersLength - 1)];
+            $randomName .= $letters[rand(0, $lettersLength - 1)];
         }
 
         return $randomName;
@@ -45,6 +46,7 @@
 
         if ($player !== null) {
             $player->save();
+            setcookie('inGameID', $player->getInGameID(), time() + 60 * 60 * 24 * 365);
         } else {
             $errors = $dirtyPlayer->getErrors();
         }

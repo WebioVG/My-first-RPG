@@ -33,17 +33,6 @@ function user() {
 }
 
 /**
- * Permet d'afficher le jour actuel en français.
- */
-function day() {
-    return str_replace(
-        ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-        ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
-        date('l')
-    );
-}
-
-/**
  * Permet de faire un insert en SQL.
  */
 function insert($sql, $bindings = []) {

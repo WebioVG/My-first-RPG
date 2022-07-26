@@ -7,12 +7,14 @@ require 'Hunter.php';
 class Character
 {
     // Properties
+    private $inGameID;
     private $name;
     private $class;
     private $tribe;
     private $health = 100;
     private $strength;
-    private $mana;
+    private $mana = 100;
+    private $power;
 
     // Constructor
     public function __construct($name, $class, $tribe)
@@ -26,13 +28,19 @@ class Character
     public function getAllProperties()
     {
         return [
+            'inGameID' => $this->inGameID,
             'name' => $this->name,
             'class' => $this->class,
             'tribe' => $this->tribe,
             'health' => $this->health,
             'strength' => $this->strength,
-            'mana' => $this->mana
+            'mana' => $this->mana,
+            'power' => $this->power
         ];
+    }
+    public function getinGameID()
+    {
+        return $this->inGameID;
     }
     public function getName()
     {
@@ -58,8 +66,18 @@ class Character
     {
         return $this->mana;
     }
+    public function getPower()
+    {
+        return $this->power;
+    }
 
     // Setters
+    public function setInGameID($inGameID)
+    {
+        $this->inGameID = $inGameID;
+
+        return $this;
+    }
     public function setName($name)
     {
         $this->name = $name;
@@ -96,17 +114,25 @@ class Character
 
         return $this;
     }
+    public function setPower($power)
+    {
+        $this->power = $power;
+
+        return $this;
+    }
 
     // Functions
     public function save()
     {
-        insert('INSERT INTO player (name, class, tribe, health, strength, mana) VALUES (:name, :class, :tribe, :health, :strength, :mana);', [
+        insert('INSERT INTO player (inGameID, name, class, tribe, health, strength, mana, power) VALUES (:inGameID, :name, :class, :tribe, :health, :strength, :mana, :power);', [
+            'inGameID' => $this->inGameID,
             'name' => $this->name,
             'class' => $this->class,
             'tribe' => $this->tribe,
             'health' => $this->health,
             'strength' => $this->strength,
-            'mana' => $this->mana
+            'mana' => $this->mana,
+            'power' => $this->power
         ]);
 
         return $this;

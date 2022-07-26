@@ -50,11 +50,13 @@
 
                         <hr class="my-3">
 
-                        <p class="mb-1"><span class="text-lg font-semibold inline-block w-[30%]">Classe : </span><span class="italic"><?= $player['class'] ?></span></p>
-                        <p class="mb-1"><span class="text-lg font-semibold inline-block w-[30%]">Tribu : </span><span class="italic"><?= $player['tribe'] ?></span></p>
-                        <p class="mb-1"><span class="text-lg font-semibold inline-block w-[30%]">Vie : </span><span class="italic"><?= $player['health'] ?></span></p>
-                        <p class="mb-1"><span class="text-lg font-semibold inline-block w-[30%]">Mana : </span><span class="italic"><?= $player['mana'] ?></span></p>
-                        <p class="mb-1"><span class="text-lg font-semibold inline-block w-[30%]">Force : </span><span class="italic"><?= $player['strength'] ?></span></p>
+                        <p class="mb-1"><span class="text-lg font-semibold inline-block w-[35%]">ID : </span><span class="italic"><?= $player['inGameID'] ?></span></p>
+                        <p class="mb-1"><span class="text-lg font-semibold inline-block w-[35%]">Classe : </span><span class="italic"><?= $player['class'] ?></span></p>
+                        <p class="mb-1"><span class="text-lg font-semibold inline-block w-[35%]">Tribu : </span><span class="italic"><?= $player['tribe'] ?></span></p>
+                        <p class="mb-1"><span class="text-lg font-semibold inline-block w-[35%]">Vie : </span><span class="italic"><?= $player['health'] ?></span></p>
+                        <p class="mb-1"><span class="text-lg font-semibold inline-block w-[35%]">Mana : </span><span class="italic"><?= $player['mana'] ?></span></p>
+                        <p class="mb-1"><span class="text-lg font-semibold inline-block w-[35%]">Force : </span><span class="italic"><?= $player['strength'] ?></span></p>
+                        <p class="mb-1"><span class="text-lg font-semibold inline-block w-[35%]">Puissance : </span><span class="italic"><?= $player['power'] ?></span></p>
                     </article>
                 <?php } ?>
             </section>

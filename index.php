@@ -5,10 +5,10 @@
     require 'classes/DB.php';
 
     $inGameID = $_COOKIE['inGameID'] ?? null;
-    $player = []; 
+    $player = null; 
 
     if (isset($inGameID)) {
-        $player = selectOne('SELECT * FROM player WHERE inGameID = '.$inGameID.';');
+        $player = Character::load($inGameID);
     }
 ?>
 
@@ -33,12 +33,12 @@
         <h2 class="text-center text-3xl text-red-600 font-semibold py-8">Combat aléatoire</h2>
 
         <section class="max-w-[1000px] mx-auto grid grid-cols-2 gap-16">
-            <?php if (isset($_COOKIE['inGameID'])) { ?>
+            <?php if ($player !== null) { ?>
                 <article class="bg-slate-100 border rounded-lg p-4">
                     <h2 class="text-center text-lg text-rose-600 font-semibold mb-4 italic">Votre personnage</h2>
-                    <h3 class="text-center text-xl font-semibold mb-4 underline"><?= $player['name'] ?></h3>
+                    <h3 class="text-center text-xl font-semibold mb-4 underline"><?= $player->getName() ?></h3>
 
-                    <?php switch ($player['class']) {
+                    <?php switch ($player->getClass()) {
                         case 'warrior':
                             echo '<img class="object-cover w-[150px] h-[150px] mx-auto mb-4 rounded-[50%] border" src="img/auron.jpg" alt="un chasseur">';
                             
@@ -57,13 +57,13 @@
 
                     <h5 class="mx-auto text-center w-[100px] mb-4 text-lg border-b pb-1">Statistiques</h5>
                     
-                    <p class="mb-1"><span class="font-semibold inline-block w-[35%]">ID : </span><span class="italic"><?= $player['inGameID'] ?></span></p>
-                    <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Classe : </span><span class="italic"><?= $player['class'] ?></span></p>
-                    <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Tribu : </span><span class="italic"><?= $player['tribe'] ?></span></p>
-                    <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Vie : </span><span class="italic"><?= $player['health'] ?></span></p>
-                    <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Mana : </span><span class="italic"><?= $player['mana'] ?></span></p>
-                    <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Force : </span><span class="italic"><?= $player['strength'] ?></span></p>
-                    <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Puissance : </span><span class="italic"><?= $player['power'] ?></span></p>
+                    <p class="mb-1"><span class="font-semibold inline-block w-[35%]">ID : </span><span class="italic"><?= $player->getInGameID() ?></span></p>
+                    <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Classe : </span><span class="italic"><?= $player->getClass() ?></span></p>
+                    <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Tribu : </span><span class="italic"><?= $player->getTribe() ?></span></p>
+                    <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Vie : </span><span class="italic"><?= $player->getHealth() ?></span></p>
+                    <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Mana : </span><span class="italic"><?= $player->getMana() ?></span></p>
+                    <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Force : </span><span class="italic"><?= $player->getStrength() ?></span></p>
+                    <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Puissance : </span><span class="italic"><?= $player->getPower() ?></span></p>
 
                     <hr class="my-3">
 

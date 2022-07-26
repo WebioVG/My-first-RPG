@@ -11,9 +11,9 @@ class Character
     private $name;
     private $class;
     private $tribe;
-    private $health = 100;
+    private $health;
     private $strength;
-    private $mana = 100;
+    private $mana;
     private $power;
 
     // Constructor
@@ -136,6 +136,20 @@ class Character
         ]);
 
         return $this;
+    }
+
+    public static function load($id)
+    {
+        $player = selectOne('SELECT inGameID, name, class, tribe, health, strength, mana, power FROM player WHERE inGameID = '.$id.';');
+        if ($player['class'] === 'warrior') {
+            return new Warrior ($player['name'], $player['tribe'], $player['inGameID'], $player['strength'], $player['power'], $player['health'], $player['mana']);
+        } elseif ($player['class'] === 'mage') {
+            return new Mage ($player['name'], $player['tribe'], $player['inGameID'], $player['strength'], $player['power'], $player['health'], $player['mana']);
+        } elseif ($player['class'] === 'hunter') {
+            return new Hunter ($player['name'], $player['tribe'], $player['inGameID'], $player['strength'], $player['power'], $player['health'], $player['mana']);
+        }
+
+        return $player;
     }
 
     public static function all()

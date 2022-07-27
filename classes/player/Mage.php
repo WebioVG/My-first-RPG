@@ -1,27 +1,30 @@
 <?php
 
-class Warrior extends Character
+namespace player;
+
+class Mage extends Character
 {
-    public function __construct($name, $tribe, $inGameID = null, $strength = 30, $power = 10, $health = 100, $mana = 100)
+    public function __construct($name, $tribe, $inGameID = null, $strength = 10, $power = 30, $health = 100, $mana = 100)
     {
         parent::__construct($name, $tribe);
 
         $this->setInGameID($inGameID ?? count(Character::all()) + 1);
-        $this->setClass('warrior');
+        $this->setClass('mage');
         $this->setStrength($strength);
         $this->setPower($power);
         $this->setHealth($health);
         $this->setMana($mana);
     }
 
-    public function attack($target)
+    public function castSpell($target)
     {
-        $target->setHealth($target->getHealth() - $this->getStrength() * 3);
+        $target->setHealth($target->getHealth() - $this->getPower() * 3);
     }
 
     public function isAllowedToCastSpells()
     {
-        return false;
+        return true;
     }
-
 }
+
+?>

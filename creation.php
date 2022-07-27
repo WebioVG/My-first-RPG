@@ -4,7 +4,10 @@
     // REQUIRES // 
     //////////////
     
-    require 'config/autoload.php';
+    require_once __DIR__.'/config/autoload.php';
+
+    use dirty\Dirty;
+    use Player\Character;
 
     ///////////////
     // VARIABLES //

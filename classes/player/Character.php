@@ -1,5 +1,7 @@
 <?php
 
+namespace player;
+
 abstract class Character
 {
     // Properties
@@ -154,3 +156,5 @@ abstract class Character
 
     abstract public function isAllowedToCastSpells();
 }
+
+?>

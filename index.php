@@ -1,6 +1,8 @@
 <?php
 
-    require 'config/autoload.php';
+    require_once __DIR__.'/config/autoload.php';
+
+    use player\Character;
 
     $inGameID = $_COOKIE['inGameID'] ?? null;
     $player1 = null;

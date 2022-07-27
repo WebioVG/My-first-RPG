@@ -1,5 +1,11 @@
 <?php
 
+namespace dirty;
+
+use player\Hunter;
+use player\Mage;
+use player\Warrior;
+
 class Dirty
 {
     private $name;

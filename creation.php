@@ -4,9 +4,7 @@
     // REQUIRES // 
     //////////////
     
-    require 'classes/Dirty.php';
-    require 'config/helpers.php';
-    require 'classes/DB.php';
+    require 'config/autoload.php';
 
     ///////////////
     // VARIABLES //

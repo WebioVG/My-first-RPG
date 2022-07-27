@@ -1,7 +1,5 @@
 <?php
 
-require 'Character.php';
-
 class Dirty
 {
     private $name;

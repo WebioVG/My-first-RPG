@@ -8,7 +8,7 @@ session_start();
  * Permet de récupèrer facilement un champ en POST
  */
 function post($field) {
-    return sanitize($_POST[$field] ?? null);
+    return sanitize($_POST[$field] ?? '');
 }
 
 /**

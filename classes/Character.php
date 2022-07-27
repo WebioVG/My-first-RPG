@@ -1,26 +1,21 @@
 <?php
 
-require 'Warrior.php';
-require 'Mage.php';
-require 'Hunter.php';
-
-class Character
+abstract class Character
 {
     // Properties
-    private $inGameID;
-    private $name;
-    private $class;
-    private $tribe;
-    private $health;
-    private $strength;
-    private $mana;
-    private $power;
+    protected $inGameID;
+    protected $name;
+    protected $class;
+    protected $tribe;
+    protected $health;
+    protected $strength;
+    protected $mana;
+    protected $power;
 
     // Constructor
-    public function __construct($name, $class, $tribe)
+    public function __construct($name, $tribe)
     {
         $this->name = $name;
-        $this->class = $class;
         $this->tribe = $tribe;
     }
 
@@ -121,7 +116,7 @@ class Character
         return $this;
     }
 
-    // Functions
+    // Methods
     public function save()
     {
         insert('INSERT INTO player (inGameID, name, class, tribe, health, strength, mana, power) VALUES (:inGameID, :name, :class, :tribe, :health, :strength, :mana, :power);', [
@@ -156,4 +151,6 @@ class Character
     {
         return selectAll('SELECT * FROM player');
     }
+
+    abstract public function isAllowedToCastSpells();
 }

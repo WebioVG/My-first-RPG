@@ -1,8 +1,6 @@
 <?php
 
-    require 'config/helpers.php';
-    require 'classes/Character.php';
-    require 'classes/DB.php';
+    require 'config/autoload.php';
 
     $inGameID = $_COOKIE['inGameID'] ?? null;
     $player1 = null;
@@ -40,6 +38,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="js/index.js"></script>
 
     <title>RPG - Accueil</title>
 </head>
@@ -49,7 +48,7 @@
     <?php require 'partials/header.php'; ?>
 
     <main class="pt-[12vh] relative">
-        <h2 class="text-center text-2xl font-semibold py-8">Combat aléatoire</h2>
+        <h2 class="text-center text-2xl font-semibold py-12">Combat aléatoire</h2>
 
         <section class="max-w-[1000px] mx-auto grid grid-cols-2 gap-16 mb-12">
             <?php if ($player1 !== null) { ?>
@@ -88,7 +87,7 @@
 
                     <h5 class="mx-auto text-center w-[100px] mb-4 text-lg border-b pb-1">Menu</h5>
 
-                    <button class="py-2 px-12 bg-blue-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 hover:border-rose-600" type="button">Attaquer</button>
+                    <button id="player1AttackButton" class="py-2 px-12 bg-blue-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 hover:border-rose-600" type="button">Attaquer</button>
 
                 </article>
             <?php } else { ?>
@@ -133,7 +132,7 @@
 
                     <h5 class="mx-auto text-center w-[100px] mb-4 text-lg border-b pb-1">Menu</h5>
 
-                    <button class="py-2 px-12 bg-rose-600 text-white font-bold border rounded-lg block text-center mx-auto duration-300 hover:border-rose-600" type="button">Attaquer</button>
+                    <button id="player2AttackButton" class="py-2 px-12 bg-rose-600 text-white font-bold border rounded-lg block text-center mx-auto duration-300 hover:border-rose-600" type="button">Attaquer</button>
                 </article>
             <?php } ?>
         </section>

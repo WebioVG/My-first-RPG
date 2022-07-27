@@ -1,7 +1,6 @@
 <?php
 
-    require 'classes/Character.php';
-    require 'config/helpers.php';
+    require 'config/autoload.php';
 
     $players = Character::all() ?? [];
 ?>

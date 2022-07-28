@@ -3,6 +3,7 @@
     require_once __DIR__.'/config/autoload.php';
 
     use player\Character;
+    use player\Mage;
 
     ///////////////////////
     // DECLARE VARIABLES //
@@ -165,7 +166,15 @@
 
                         <h5 class="mx-auto text-center w-[100px] mb-4 text-lg border-b pb-1">Menu</h5>
 
-                        <a href="index.php?player=<?= $player1InGameID ?>&opponent=<?= $player2InGameID ?>&method=attack" id="player1AttackButton" class="py-2 px-12 bg-blue-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-blue-600" type="button">Attaquer</a>
+                        <a href="index.php?player=<?= $player1InGameID ?>&opponent=<?= $player2InGameID ?>&method=attack" id="player1AttackButton" class="py-2 px-12 mb-3 bg-blue-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-blue-600" type="button">Attaquer</a>
+                        <?php if ($player1 instanceof Mage) { ?>
+                            <a href="index.php?player=<?= $player2InGameID ?>&opponent=<?= $player1InGameID ?>&method=castSpell" class="py-2 px-12 mb-3 bg-blue-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-blue-600" type="button">Magie</a>
+                            <div class="grid grid-cols-2 gap-1 w-2/3 mx-auto">
+                                <?php if (isset($_GET['method']) && $_GET['method'] === 'castSpell' && $_GET['player'] === (string) $player2->getInGameID()) { foreach ($player1->getSpells() as $spell) { ?>
+                                    <a href="index.php?player=<?= $player1InGameID ?>&opponent=<?= $player2InGameID ?>&method=castSpell$spell=<?= $spell['name'] ?>" class="py-1 px-12 mb-1 bg-blue-300 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-full hover:border-blue-600" type="button"><?= $spell['name'] ?></a>
+                                <?php }} ?>
+                            </div>
+                        <?php } ?>
                     <?php } ?>
                 </article>
             <?php } else { ?>
@@ -215,8 +224,17 @@
 
                         <h5 class="mx-auto text-center w-[100px] mb-4 text-lg border-b pb-1">Menu</h5>
 
-                        <a href="index.php?player=<?= $player2InGameID ?>&opponent=<?= $player1InGameID ?>&method=attack" class="py-2 px-12 bg-rose-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-rose-600" type="button">Attaquer</a>
-                    <?php } ?>
+                        <a href="index.php?player=<?= $player2InGameID ?>&opponent=<?= $player1InGameID ?>&method=attack" class="py-2 px-12 mb-3 bg-rose-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-rose-600" type="button">Attaquer</a>
+                        <?php if ($player2 instanceof Mage) { ?>
+                            <a href="index.php?player=<?= $player1InGameID ?>&opponent=<?= $player2InGameID ?>&method=castSpell" class="py-2 px-12 mb-3 bg-rose-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-rose-600" type="button">Magie</a>
+                            <div class="grid grid-cols-2 gap-1 w-2/3 mx-auto">
+                                <?php if ($_GET['method'] === 'castSpell' && $_GET['player'] === (string) $player1->getInGameID()) {
+                                    foreach ($player2->getSpells() as $spell) { ?>
+                                        <a href="index.php?player=<?= $player2InGameID ?>&opponent=<?= $player1InGameID ?>&method=castSpell$spell=<?= $spell['name'] ?>" class="py-1 px-12 mb-1 bg-rose-300 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-full hover:border-rose-600" type="button"><?= $spell['name'] ?></a>
+                                <?php }} ?>
+                            </div>
+                        <?php } ?>
+                        <?php } ?>
                 </article>
             <?php } ?>
         </section>

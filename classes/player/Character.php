@@ -144,6 +144,15 @@ abstract class Character
             'power' => $this->power
         ]);
 
+        if ($this instanceof Mage) {
+            for ($i = 1; $i < 5; $i++) {
+                insert('INSERT INTO player_has_spell (player_id, spell_id) VALUES (:player_id, :spell_id)', [
+                    'player_id' => selectOne('SELECT id from player WHERE inGameID = '.$this->getinGameID().';')['id'],
+                    'spell_id' => $i
+                ]);
+            }
+        }
+
         return $this;
     }
 

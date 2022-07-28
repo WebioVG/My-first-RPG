@@ -18,7 +18,7 @@ class Mage extends Character
 
     public function castSpell($target)
     {
-        $target->setHealth($target->getHealth() - $this->getPower() * 3);
+        $target->pullLife($this->getPower() * 3);
     }
 
     public function isAllowedToCastSpells()

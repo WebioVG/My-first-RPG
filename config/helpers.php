@@ -64,3 +64,12 @@ function selectAll($sql, $bindings = []) {
 
     return $query->fetchAll();
 }
+
+/**
+ * Permet de faire un update en SQL.
+ */
+function update($sql, $bindings = []) {
+    global $db;
+
+    return $db->prepare($sql)->execute($bindings);
+}

@@ -18,7 +18,7 @@ class Hunter extends Character
 
     public function rangedAttack($target)
     {
-        $target->setHealth($target->getHealth() - $this->getStrength() * 2);
+        $target->pullLife($this->getStrength() * 2);
     }
 
     public function isAllowedToCastSpells()

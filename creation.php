@@ -7,7 +7,7 @@
     require_once __DIR__.'/config/autoload.php';
 
     use dirty\Dirty;
-    use Player\Character;
+    use player\Character;
 
     ///////////////
     // VARIABLES //
@@ -47,7 +47,7 @@
 
         if ($player !== null) {
             $player->save();
-            setcookie('inGameID', $player->getInGameID(), time() + 60 * 60 * 24 * 365);
+            setcookie('player', $player->getInGameID(), time() + 60 * 60 * 24 * 365);
         } else {
             $errors = $dirtyPlayer->getErrors();
         }

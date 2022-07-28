@@ -5,6 +5,7 @@
     use player\Character;
 
     $players = Character::all() ?? [];
+    
 ?>
 
 <!DOCTYPE html>

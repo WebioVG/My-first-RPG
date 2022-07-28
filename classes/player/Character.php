@@ -5,14 +5,15 @@ namespace player;
 abstract class Character
 {
     // Properties
-    protected $inGameID;
-    protected $name;
+    private $inGameID;
+    private $name;
     protected $class;
     protected $tribe;
     protected $health;
     protected $strength;
     protected $mana;
     protected $power;
+    private $isDead = false;
 
     // Constructor
     public function __construct($name, $tribe)
@@ -32,7 +33,8 @@ abstract class Character
             'health' => $this->health,
             'strength' => $this->strength,
             'mana' => $this->mana,
-            'power' => $this->power
+            'power' => $this->power,
+            'isDead' => $this->isDead
         ];
     }
     public function getinGameID()
@@ -66,6 +68,10 @@ abstract class Character
     public function getPower()
     {
         return $this->power;
+    }
+    public function getIsDead()
+    {
+        return $this->isDead;
     }
 
     // Setters
@@ -117,6 +123,12 @@ abstract class Character
 
         return $this;
     }
+    public function setIsDead($isDead)
+    {
+        $this->isDead = $isDead;
+
+        return $this;
+    }
 
     // Methods
     public function save()
@@ -135,6 +147,16 @@ abstract class Character
         return $this;
     }
 
+    public function updateStats()
+    {
+        update('UPDATE player SET health=:health, strength=:strength, mana=:mana, power=:power WHERE inGameID='.$this->getinGameID(), [
+            'health' => $this->getHealth(),
+            'strength' => $this->getStrength(),
+            'mana' => $this->getMana(),
+            'power' => $this->getPower(),
+        ]);
+    }
+
     public static function load($id)
     {
         $player = selectOne('SELECT inGameID, name, class, tribe, health, strength, mana, power FROM player WHERE inGameID = '.$id.';');
@@ -147,6 +169,35 @@ abstract class Character
         }
 
         return $player;
+    }
+
+    public function genericAttack($opponent)
+    {
+        if ($this instanceof Warrior) {
+            $this->attack($opponent);
+        }
+        if ($this instanceof Mage) {
+            $this->castSpell($opponent);
+        }
+        if ($this instanceof Hunter) {
+            $this->rangedAttack($opponent);
+        }
+
+        return $this;
+    }
+
+    public function pullLife($amount)
+    {
+        if ($this->getHealth() - $amount < 0) {
+            $this->setHealth(0);
+            $this->setIsDead(true);
+        } else {
+            $this->setHealth($this->getHealth() - $amount);
+        }
+
+        $this->updateStats();
+
+        return $this;
     }
 
     public static function all()

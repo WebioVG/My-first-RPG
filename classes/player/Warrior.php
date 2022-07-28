@@ -18,7 +18,7 @@ class Warrior extends Character
 
     public function attack($target)
     {
-        $target->setHealth($target->getHealth() - $this->getStrength() * 3);
+        $target->pullLife($this->getStrength() * 3);
     }
 
     public function isAllowedToCastSpells()

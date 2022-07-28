@@ -86,7 +86,9 @@
 
                         <hr class="my-5">
 
-                        <a class="inline-block rounded-lg bg-<?= getSelectButtonBG($player['class']) ?>-600 text-white text-xl text-center py-2 px-4 w-full" href="listPlayers.php?select=<?= $player['inGameID'] ?>">Incarner</a>
+                        <?php if ($player['isDead'] === 0) { ?>
+                            <a class="inline-block rounded-lg bg-<?= getSelectButtonBG($player['class']) ?>-600 text-white text-xl text-center py-2 px-4 w-full" href="listPlayers.php?select=<?= $player['inGameID'] ?>">Incarner</a>
+                        <?php } ?>
                     </article>
                 <?php } ?>
             </section>

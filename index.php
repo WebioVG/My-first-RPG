@@ -25,11 +25,19 @@
         do {
             $random = rand(0, count(selectAll('SELECT inGameID FROM player')) - 1);
             $player2ID = selectAll('SELECT inGameID FROM player')[$random]['inGameID'];
-        } while ($player2ID === $except);
+        } while ($player2ID === $except || !checkIfCharacterIsAliveByID($player2ID));
 
         return $player2ID;
     }
 
+    function checkIfCharacterIsAliveByID($id) {
+        if (selectOne('SELECT * FROM player WHERE inGameID = '.$id)['isDead'] === 1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
     function setPlayer2InGameID($isGameRunning, $player1InGameID) {
         if (!$isGameRunning) {
             $player2InGameID = getRandomCharacterID($player1InGameID) ?? 0;

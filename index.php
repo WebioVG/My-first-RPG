@@ -15,6 +15,7 @@
     $player2 = null;
     $currentPlayer = null;
     $otherPlayer = null;
+    $winner = null;
 
     ///////////////
     // FUNCTIONS //
@@ -69,7 +70,19 @@
             $currentPlayer->genericAttack($otherPlayer);
         }
     }
+
+    // End the game when a player's health reaches zero
+    if ($isGameRunning && $player1->getIsDead()) {
+        $winner = clone $player2;
+        $isGameRunning = false;
         
+        unset($player2);
+    } else if ($isGameRunning && $player2->getIsDead()) {
+        $winner = clone $player1;
+        $isGameRunning = false; 
+                
+        unset($player2);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -93,6 +106,10 @@
     <main class="pt-[12vh] relative">
         <h2 class="text-center text-2xl font-semibold py-12">Combat aléatoire</h2>
 
+        <?php if ($winner !== null) { ?>
+            <h3 class="bg-green-300 text-center text-2xl font-semibold py-4 my-12"><span class="font-semibold text-3xl text-rose-600"><?= $winner->getName() ?></span> a gagné !</h3>
+        <?php } ?>
+
         <section class="flex justify-center gap-4">
             <a href="index.php?player=<?= $player1InGameID ?>&opponent=<?= $player2InGameID ?>&method=" class="bg-emerald-600 inline-block rounded-lg text-center text-lg font-semibold mb-8 px-6 py-1 text-white">Démarrer</a>
             <a href="index.php" class="bg-red-600 inline-block rounded-lg text-center text-lg font-semibold mb-8 px-6 py-1 text-white">Réinitialiser</a>
@@ -101,7 +118,7 @@
         <section class="max-w-[1000px] mx-auto grid grid-cols-2 gap-16 mb-12">
             <?php if ($player1 !== null) { ?>
                 <article class="bg-slate-100 border rounded-lg p-4 relative">
-                    <?php if ($currentPlayer === $player2) { ?>
+                    <?php if (isset($player2) && $currentPlayer === $player2) { ?>
                         <img class="absolute left-3 top-3" src="img/star.svg" alt="étoile">
                     <?php } ?>
 
@@ -135,11 +152,13 @@
                     <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Force : </span><span class="italic"><?= $player1->getStrength() ?></span></p>
                     <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Puissance : </span><span class="italic"><?= $player1->getPower() ?></span></p>
 
-                    <hr class="my-3">
+                    <?php if ($winner === null) { ?>
+                        <hr class="my-3">
 
-                    <h5 class="mx-auto text-center w-[100px] mb-4 text-lg border-b pb-1">Menu</h5>
+                        <h5 class="mx-auto text-center w-[100px] mb-4 text-lg border-b pb-1">Menu</h5>
 
-                    <a href="index.php?player=<?= $player1InGameID ?>&opponent=<?= $player2InGameID ?>&method=attack" id="player1AttackButton" class="py-2 px-12 bg-blue-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-blue-600" type="button">Attaquer</a>
+                        <a href="index.php?player=<?= $player1InGameID ?>&opponent=<?= $player2InGameID ?>&method=attack" id="player1AttackButton" class="py-2 px-12 bg-blue-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-blue-600" type="button">Attaquer</a>
+                    <?php } ?>
                 </article>
             <?php } else { ?>
 
@@ -147,9 +166,9 @@
 
             <?php } ?>
 
-            <?php if ($player2 !== null) { ?>
+            <?php if (isset($player2) && $player2 !== null) { ?>
                 <article class="bg-slate-100 border rounded-lg p-4 relative">
-                    <?php if ($currentPlayer === $player1) { ?>
+                    <?php if (isset($player1) && $currentPlayer === $player1) { ?>
                         <img class="absolute right-3 top-3" src="img/star.svg" alt="étoile">
                     <?php } ?>
 
@@ -183,11 +202,13 @@
                     <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Force : </span><span class="italic"><?= $player2->getStrength() ?></span></p>
                     <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Puissance : </span><span class="italic"><?= $player2->getPower() ?></span></p>
 
-                    <hr class="my-3">
+                    <?php if ($winner === null) { ?>
+                        <hr class="my-3">
 
-                    <h5 class="mx-auto text-center w-[100px] mb-4 text-lg border-b pb-1">Menu</h5>
+                        <h5 class="mx-auto text-center w-[100px] mb-4 text-lg border-b pb-1">Menu</h5>
 
-                    <a href="index.php?player=<?= $player2InGameID ?>&opponent=<?= $player1InGameID ?>&method=attack" class="py-2 px-12 bg-rose-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-rose-600" type="button">Attaquer</a>
+                        <a href="index.php?player=<?= $player2InGameID ?>&opponent=<?= $player1InGameID ?>&method=attack" class="py-2 px-12 bg-rose-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-rose-600" type="button">Attaquer</a>
+                    <?php } ?>
                 </article>
             <?php } ?>
         </section>

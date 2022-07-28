@@ -149,11 +149,12 @@ abstract class Character
 
     public function updateStats()
     {
-        update('UPDATE player SET health=:health, strength=:strength, mana=:mana, power=:power WHERE inGameID='.$this->getinGameID(), [
+        update('UPDATE player SET health=:health, strength=:strength, mana=:mana, power=:power, isDead=:isDead WHERE inGameID='.$this->getinGameID(), [
             'health' => $this->getHealth(),
             'strength' => $this->getStrength(),
             'mana' => $this->getMana(),
             'power' => $this->getPower(),
+            'isDead' => $this->getIsDead()
         ]);
     }
 
@@ -188,7 +189,7 @@ abstract class Character
 
     public function pullLife($amount)
     {
-        if ($this->getHealth() - $amount < 0) {
+        if ($this->getHealth() - $amount <= 0) {
             $this->setHealth(0);
             $this->setIsDead(true);
         } else {

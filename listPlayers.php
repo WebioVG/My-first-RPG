@@ -5,6 +5,30 @@
     use player\Character;
 
     $players = Character::all() ?? [];
+    $selectButtonBG = '';
+
+    if (isset($_GET['select'])) {
+        setcookie('player', $_GET['select'], time() + 60 * 60 * 24 * 365);
+    }
+
+    function getSelectButtonBG($class) {
+        switch ($class) {
+            case 'warrior':
+                return 'rose';
+
+                break;
+            case 'mage':
+                return 'blue';
+
+                break;
+            case 'hunter':
+                return 'emerald';
+
+                break;
+            default:
+                return '';
+            }
+    }
     
 ?>
 
@@ -50,7 +74,7 @@
                                 break;
                         } ?>
 
-                        <hr class="my-3">
+                        <hr class="my-5">
 
                         <p class="mb-1"><span class="text-lg font-semibold inline-block w-[35%]">ID : </span><span class="italic"><?= $player['inGameID'] ?></span></p>
                         <p class="mb-1"><span class="text-lg font-semibold inline-block w-[35%]">Classe : </span><span class="italic"><?= $player['class'] ?></span></p>
@@ -59,6 +83,10 @@
                         <p class="mb-1"><span class="text-lg font-semibold inline-block w-[35%]">Mana : </span><span class="italic"><?= $player['mana'] ?></span></p>
                         <p class="mb-1"><span class="text-lg font-semibold inline-block w-[35%]">Force : </span><span class="italic"><?= $player['strength'] ?></span></p>
                         <p class="mb-1"><span class="text-lg font-semibold inline-block w-[35%]">Puissance : </span><span class="italic"><?= $player['power'] ?></span></p>
+
+                        <hr class="my-5">
+
+                        <a class="inline-block rounded-lg bg-<?= getSelectButtonBG($player['class']) ?>-600 text-white text-xl text-center py-2 px-4 w-full" href="listPlayers.php?select=<?= $player['inGameID'] ?>">Incarner</a>
                     </article>
                 <?php } ?>
             </section>

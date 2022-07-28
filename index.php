@@ -63,7 +63,7 @@
         }
     }
 
-    if ($isGameRunning && $_GET['method'] !== '') {
+    if ($isGameRunning) {
         if ($_GET['player'] == $player1->getInGameID()) {
             $currentPlayer = $player1;
             $otherPlayer = $player2;
@@ -161,13 +161,13 @@
                     <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Force : </span><span class="italic"><?= $player1->getStrength() ?></span></p>
                     <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Puissance : </span><span class="italic"><?= $player1->getPower() ?></span></p>
 
-                    <?php if ($winner === null) { ?>
+                    <?php if ($winner === null && isset($player2) && $currentPlayer === $player2) { ?>
                         <hr class="my-3">
 
                         <h5 class="mx-auto text-center w-[100px] mb-4 text-lg border-b pb-1">Menu</h5>
 
                         <a href="index.php?player=<?= $player1InGameID ?>&opponent=<?= $player2InGameID ?>&method=attack" id="player1AttackButton" class="py-2 px-12 mb-3 bg-blue-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-blue-600" type="button">Attaquer</a>
-                        <?php if ($player1 instanceof Mage) { ?>
+                        <?php if ($player1->isAllowedToCastSpells()) { ?>
                             <a href="index.php?player=<?= $player2InGameID ?>&opponent=<?= $player1InGameID ?>&method=castSpell" class="py-2 px-12 mb-3 bg-blue-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-blue-600" type="button">Magie</a>
                             <div class="grid grid-cols-2 gap-1 w-2/3 mx-auto">
                                 <?php if (isset($_GET['method']) && $_GET['method'] === 'castSpell' && $_GET['player'] === (string) $player2->getInGameID()) { foreach ($player1->getSpells() as $spell) { ?>
@@ -219,13 +219,13 @@
                     <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Force : </span><span class="italic"><?= $player2->getStrength() ?></span></p>
                     <p class="mb-1"><span class="font-semibold inline-block w-[35%]">Puissance : </span><span class="italic"><?= $player2->getPower() ?></span></p>
 
-                    <?php if ($winner === null) { ?>
+                    <?php if ($winner === null && isset($player1) && $currentPlayer === $player1) { ?>
                         <hr class="my-3">
 
                         <h5 class="mx-auto text-center w-[100px] mb-4 text-lg border-b pb-1">Menu</h5>
 
                         <a href="index.php?player=<?= $player2InGameID ?>&opponent=<?= $player1InGameID ?>&method=attack" class="py-2 px-12 mb-3 bg-rose-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-rose-600" type="button">Attaquer</a>
-                        <?php if ($player2 instanceof Mage) { ?>
+                        <?php if ($player2->isAllowedToCastSpells()) { ?>
                             <a href="index.php?player=<?= $player1InGameID ?>&opponent=<?= $player2InGameID ?>&method=castSpell" class="py-2 px-12 mb-3 bg-rose-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-rose-600" type="button">Magie</a>
                             <div class="grid grid-cols-2 gap-1 w-2/3 mx-auto">
                                 <?php if ($_GET['method'] === 'castSpell' && $_GET['player'] === (string) $player1->getInGameID()) {

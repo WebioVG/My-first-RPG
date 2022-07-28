@@ -4,13 +4,6 @@ namespace player;
 
 class Mage extends Character
 {
-    // public $spells = [
-    //     ['name' => 'Brasier', 'intensity' => 10, 'description' => 'Un sort enflammant l\'ennemi (faible)'],
-    //     ['name' => 'Glacier', 'intensity' => 10, 'description' => 'Un sort gelant l\'ennemi (faible)'],
-    //     ['name' => 'Foudre', 'intensity' => 10, 'description' => 'Un sort foudroyant l\'ennemi (faible)'],
-    //     ['name' => 'H2O', 'intensity' => 10, 'description' => 'Un sort noyant l\'ennemi (faible)'],
-    // ];
-
     public $spells = [];
 
     public function __construct($name, $tribe, $inGameID = null, $strength = 10, $power = 30, $health = 100, $mana = 100)

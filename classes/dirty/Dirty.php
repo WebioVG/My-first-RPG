@@ -8,6 +8,7 @@ use player\Warrior;
 
 class Dirty
 {
+    // Properties
     private $name;
     private $class;
     private $tribe;
@@ -36,28 +37,26 @@ class Dirty
         }
     }
     
+    /**
+     * Creates a new instance of Warrior, Mage or Hunter if there is no error.
+     */
     public function createNewCharacter()
     {
-        if (empty($this->errors)) {
-            switch ($this->class) {
-                case 'warrior':
-                        return new Warrior($this->name, $this->tribe);
-                        
-                    break;
-                    case 'mage':
-                        return new Mage($this->name, $this->tribe);
-                        
-                        break;
-                    case 'hunter':
-                        return new Hunter($this->name, $this->tribe);
-        
-                        break;
-                }
-        } else {
-            return null;
+        if (!empty($this->errors)) { return null; }
+
+        switch ($this->class) {
+            case 'warrior':
+                return new Warrior($this->name, $this->tribe); break;
+            case 'mage':
+                return new Mage($this->name, $this->tribe); break;
+            case 'hunter':
+                return new Hunter($this->name, $this->tribe); break;
         }
     }
 
+    /**
+     * Get all errors regarding the name, class and tribe properties.
+     */
     public function getErrors()
     {
         return $this->errors;

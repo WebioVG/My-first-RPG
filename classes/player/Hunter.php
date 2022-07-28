@@ -4,7 +4,7 @@ namespace player;
 
 class Hunter extends Character
 {
-    public function __construct($name, $tribe, $inGameID = null, $strength = 20, $power = 20, $health = 100, $mana = 100)
+    public function __construct($name, $tribe, $inGameID = null, $strength = 20, $power = 20, $health = 100, $mana = 50)
     {
         parent::__construct($name, $tribe);
 
@@ -14,11 +14,6 @@ class Hunter extends Character
         $this->setPower($power);
         $this->setHealth($health);
         $this->setMana($mana);
-    }
-
-    public function rangedAttack($target)
-    {
-        $target->pullLife($this->getStrength() * 2);
     }
 
     public function isAllowedToCastSpells()

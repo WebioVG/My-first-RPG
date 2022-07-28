@@ -1,33 +1,43 @@
 <?php
 
+    //////////////
+    // REQUIRES //
+    //////////////
+
     require_once __DIR__.'/config/autoload.php';
 
     use player\Character;
 
+    ///////////////
+    // FUNCTIONS //
+    ///////////////
+
+    /**
+     * Returns the color of the select button background depending on the given class.
+     */
+    function getSelectButtonBG($class) {
+        switch ($class) {
+            case 'warrior': return 'rose'; break;
+            case 'mage': return 'blue'; break;
+            case 'hunter': return 'emerald'; break;
+
+            default: return '';
+        }
+    }
+
+    ///////////////
+    // VARIABLES //
+    ///////////////
+
     $players = Character::all() ?? [];
     $selectButtonBG = '';
 
+    //////////
+    // MAIN //
+    //////////
+
     if (isset($_GET['select'])) {
         setcookie('player', $_GET['select'], time() + 60 * 60 * 24 * 365);
-    }
-
-    function getSelectButtonBG($class) {
-        switch ($class) {
-            case 'warrior':
-                return 'rose';
-
-                break;
-            case 'mage':
-                return 'blue';
-
-                break;
-            case 'hunter':
-                return 'emerald';
-
-                break;
-            default:
-                return '';
-            }
     }
     
 ?>

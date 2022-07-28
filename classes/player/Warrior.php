@@ -4,7 +4,7 @@ namespace player;
 
 class Warrior extends Character
 {
-    public function __construct($name, $tribe, $inGameID = null, $strength = 30, $power = 10, $health = 100, $mana = 100)
+    public function __construct($name, $tribe, $inGameID = null, $strength = 30, $power = 10, $health = 100, $mana = 25)
     {
         parent::__construct($name, $tribe);
 
@@ -16,16 +16,10 @@ class Warrior extends Character
         $this->setMana($mana);
     }
 
-    public function attack($target)
-    {
-        $target->pullLife($this->getStrength() * 3);
-    }
-
     public function isAllowedToCastSpells()
     {
         return false;
     }
-
 }
 
 ?>

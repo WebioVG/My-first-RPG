@@ -130,7 +130,13 @@ abstract class Character
         return $this;
     }
 
-    // Methods
+    /////////////
+    // Methods //
+    /////////////
+    
+    /**
+     * Saves the character in the db (INSERT) after initalisation.
+     */
     public function save()
     {
         insert('INSERT INTO player (inGameID, name, class, tribe, health, strength, mana, power) VALUES (:inGameID, :name, :class, :tribe, :health, :strength, :mana, :power);', [
@@ -144,6 +150,7 @@ abstract class Character
             'power' => $this->power
         ]);
 
+        // Add spells for mages
         if ($this instanceof Mage) {
             for ($i = 1; $i < 5; $i++) {
                 insert('INSERT INTO player_has_spell (player_id, spell_id) VALUES (:player_id, :spell_id)', [
@@ -156,6 +163,9 @@ abstract class Character
         return $this;
     }
 
+    /**
+     * Updates the character's stats in the db (UPDATE).
+     */
     public function updateStats()
     {
         update('UPDATE player SET health=:health, strength=:strength, mana=:mana, power=:power, isDead=:isDead WHERE inGameID='.$this->getinGameID(), [
@@ -167,42 +177,48 @@ abstract class Character
         ]);
     }
 
-    public static function load($id)
+    /**
+     * Static - Loads a character from the db given the inGameID (SELECT) and instantiates it.
+     * Parameter: $inGameID
+     */
+    public static function load($inGameID)
     {
-        $player = selectOne('SELECT inGameID, name, class, tribe, health, strength, mana, power FROM player WHERE inGameID = '.$id.';');
-        if ($player['class'] === 'warrior') {
-            return new Warrior ($player['name'], $player['tribe'], $player['inGameID'], $player['strength'], $player['power'], $player['health'], $player['mana']);
-        } elseif ($player['class'] === 'mage') {
-            return new Mage ($player['name'], $player['tribe'], $player['inGameID'], $player['strength'], $player['power'], $player['health'], $player['mana']);
-        } elseif ($player['class'] === 'hunter') {
-            return new Hunter ($player['name'], $player['tribe'], $player['inGameID'], $player['strength'], $player['power'], $player['health'], $player['mana']);
+        $player = selectOne('SELECT inGameID, name, class, tribe, health, strength, mana, power FROM player WHERE inGameID = '.$inGameID.';');
+
+        switch ($player['class']) {
+            case 'warrior':
+                return new Warrior ($player['name'], $player['tribe'], $player['inGameID'], $player['strength'], $player['power'], $player['health'], $player['mana']); break;
+            case 'mage':
+                return new Mage ($player['name'], $player['tribe'], $player['inGameID'], $player['strength'], $player['power'], $player['health'], $player['mana']); break;
+            case 'hunter':
+                return new Hunter ($player['name'], $player['tribe'], $player['inGameID'], $player['strength'], $player['power'], $player['health'], $player['mana']); break;
         }
 
         return $player;
     }
 
-    public function genericAttack($opponent)
+    /**
+     * Deals a physic attack to a target.
+     * Parameter: $target
+     */
+    public function physicAttack($target)
     {
-        if ($this instanceof Warrior) {
-            $this->attack($opponent);
-        }
-        if ($this instanceof Mage) {
-            $this->castSpell($opponent);
-        }
-        if ($this instanceof Hunter) {
-            $this->rangedAttack($opponent);
-        }
+        $target->pullLife($this->getStrength());
 
         return $this;
     }
 
+    /**
+     * Decreases the health of the instance by the given amount.
+     * Parameter: $amount
+     */
     public function pullLife($amount)
     {
         if ($this->getHealth() - $amount <= 0) {
             $this->setHealth(0);
             $this->setIsDead(true);
         } else {
-            $this->setHealth($this->getHealth() - $amount);
+            $this->setHealth(round($this->getHealth() - $amount));
         }
 
         $this->updateStats();
@@ -210,6 +226,10 @@ abstract class Character
         return $this;
     }
 
+    /**
+     * Get all players from the db (SELECT).
+     * Returns an array.
+     */
     public static function all()
     {
         return selectAll('SELECT * FROM player');

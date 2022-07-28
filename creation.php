@@ -1,13 +1,32 @@
 <?php
 
     //////////////
-    // REQUIRES // 
+    // REQUIRES //
     //////////////
     
     require_once __DIR__.'/config/autoload.php';
 
     use dirty\Dirty;
     use player\Character;
+
+    ///////////////
+    // FUNCTIONS //
+    ///////////////
+
+    /**
+     * Returns a random name.
+     */
+    function generateRandomName() {
+        $letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $lettersLength = strlen($letters);
+        $randomName = '';
+
+        for ($i = 0; $i < 10; $i++) {
+            $randomName .= $letters[rand(0, $lettersLength - 1)];
+        }
+
+        return $randomName;
+    }
 
     ///////////////
     // VARIABLES //
@@ -20,22 +39,6 @@
     $tribe = post('tribe');
     $errors = [];
     $characters = Character::all();
-
-    ///////////////
-    // FUNCTIONS //
-    ///////////////
-
-    function generateRandomName() {
-        $letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $lettersLength = strlen($letters);
-        $randomName = '';
-
-        for ($i = 0; $i < 10; $i++) {
-            $randomName .= $letters[rand(0, $lettersLength - 1)];
-        }
-
-        return $randomName;
-    }
 
     //////////
     // MAIN //

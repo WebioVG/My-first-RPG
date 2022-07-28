@@ -1,44 +1,40 @@
 <?php
 
+    //////////////
+    // REQUIRES //
+    //////////////
+
     require_once __DIR__.'/config/autoload.php';
 
     use player\Character;
-    use player\Mage;
-
-    ///////////////////////
-    // DECLARE VARIABLES //
-    ///////////////////////
-
-    $isGameRunning = isset($_GET['player']) && isset($_GET['opponent']) && isset($_GET['method']) && isset($_COOKIE['player']) ? true : false;
-    $player1InGameID = $_COOKIE['player'] ?? 0;
-    $player2InGameID = setPlayer2InGameID($isGameRunning, $player1InGameID);
-    $player1 = null;
-    $player2 = null;
-    $currentPlayer = null;
-    $otherPlayer = null;
-    $winner = null;
 
     ///////////////
     // FUNCTIONS //
     ///////////////
 
-    function getRandomCharacterID(int $except) {
+    /**
+     * Gives a random character id from the db except a given one.
+     * Parameter: $exception
+     */
+    function getRandomCharacterID(int $exception) {
         do {
             $random = rand(0, count(selectAll('SELECT inGameID FROM player')) - 1);
             $player2ID = selectAll('SELECT inGameID FROM player')[$random]['inGameID'];
-        } while ($player2ID === $except || !checkIfCharacterIsAliveByID($player2ID));
+        } while ($player2ID === $exception || !checkIfCharacterIsAliveByID($player2ID));
 
         return $player2ID;
     }
 
-    function checkIfCharacterIsAliveByID($id) {
-        if (selectOne('SELECT * FROM player WHERE inGameID = '.$id)['isDead'] === 1) {
-            return false;
-        } else {
-            return true;
-        }
+    /**
+     * Tells if a character is alive given its inGameID.
+     */
+    function checkIfCharacterIsAliveByID($inGameID) {
+        return selectOne('SELECT * FROM player WHERE inGameID = '.$inGameID)['isDead'] === 0;
     }
     
+    /**
+     * Sets $player2InGameID at the start of the script. Gives it a random id if the game is not running or the current opponent id.
+     */
     function setPlayer2InGameID($isGameRunning, $player1InGameID) {
         if (!$isGameRunning) {
             $player2InGameID = getRandomCharacterID($player1InGameID) ?? 0;
@@ -49,6 +45,19 @@
 
         return $player2InGameID;
     }
+
+    ///////////////
+    // VARIABLES //
+    ///////////////
+
+    $isGameRunning = isset($_GET['player']) && isset($_GET['opponent']) && isset($_GET['method']) && isset($_COOKIE['player']) ? true : false;
+    $player1InGameID = $_COOKIE['player'] ?? 0;
+    $player2InGameID = setPlayer2InGameID($isGameRunning, $player1InGameID);
+    $player1 = null;
+    $player2 = null;
+    $currentPlayer = null;
+    $otherPlayer = null;
+    $winner = null;
 
     //////////
     // MAIN //
@@ -63,6 +72,7 @@
         }
     }
 
+    // Check the current player and deal the action 
     if ($isGameRunning) {
         if ($_GET['player'] == $player1->getInGameID()) {
             $currentPlayer = $player1;
@@ -74,9 +84,15 @@
             echo 'ERROR';
             die();
         }
-
-        if ($_GET['method'] === 'attack') {
-            $currentPlayer->genericAttack($otherPlayer);
+        
+        // ACTION
+        switch ($_GET['method']) {
+            case 'attack': $currentPlayer->physicAttack($otherPlayer); break;
+            case 'castSpell':
+                if (isset($_GET['spell'])) {
+                    $currentPlayer->castSpell($otherPlayer, $_GET['spell']);
+                }
+            break;
         }
     }
 
@@ -84,12 +100,10 @@
     if ($isGameRunning && $player1->getIsDead()) {
         $winner = clone $player2;
         $isGameRunning = false;
-        
         unset($player2);
     } else if ($isGameRunning && $player2->getIsDead()) {
         $winner = clone $player1;
-        $isGameRunning = false; 
-                
+        $isGameRunning = false;             
         unset($player2);
     }
 ?>
@@ -171,7 +185,7 @@
                             <a href="index.php?player=<?= $player2InGameID ?>&opponent=<?= $player1InGameID ?>&method=castSpell" class="py-2 px-12 mb-3 bg-blue-400 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-3/4 hover:border-blue-600" type="button">Magie</a>
                             <div class="grid grid-cols-2 gap-1 w-2/3 mx-auto">
                                 <?php if (isset($_GET['method']) && $_GET['method'] === 'castSpell' && $_GET['player'] === (string) $player2->getInGameID()) { foreach ($player1->getSpells() as $spell) { ?>
-                                    <a href="index.php?player=<?= $player1InGameID ?>&opponent=<?= $player2InGameID ?>&method=castSpell$spell=<?= $spell['name'] ?>" class="py-1 px-12 mb-1 bg-blue-300 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-full hover:border-blue-600" type="button"><?= $spell['name'] ?></a>
+                                    <a href="index.php?player=<?= $player1InGameID ?>&opponent=<?= $player2InGameID ?>&method=castSpell&spell=<?= $spell['name'] ?>" class="py-1 px-12 mb-1 bg-blue-300 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-full hover:border-blue-600" type="button"><?= $spell['name'] ?></a>
                                 <?php }} ?>
                             </div>
                         <?php } ?>
@@ -230,7 +244,7 @@
                             <div class="grid grid-cols-2 gap-1 w-2/3 mx-auto">
                                 <?php if ($_GET['method'] === 'castSpell' && $_GET['player'] === (string) $player1->getInGameID()) {
                                     foreach ($player2->getSpells() as $spell) { ?>
-                                        <a href="index.php?player=<?= $player2InGameID ?>&opponent=<?= $player1InGameID ?>&method=castSpell$spell=<?= $spell['name'] ?>" class="py-1 px-12 mb-1 bg-rose-300 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-full hover:border-rose-600" type="button"><?= $spell['name'] ?></a>
+                                        <a href="index.php?player=<?= $player2InGameID ?>&opponent=<?= $player1InGameID ?>&method=castSpell&spell=<?= $spell['name'] ?>" class="py-1 px-12 mb-1 bg-rose-300 text-white font-bold border rounded-lg block text-center mx-auto duration-300 w-full hover:border-rose-600" type="button"><?= $spell['name'] ?></a>
                                 <?php }} ?>
                             </div>
                         <?php } ?>
